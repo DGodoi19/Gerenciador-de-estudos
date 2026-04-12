@@ -1,0 +1,42 @@
+{% extends 'estudos/base.html' %}
+{% load static %}
+{% block content %}
+<main class="container">
+    <div class="text-center">
+        <h1 style="font-size: 3rem; margin-bottom: 10px;">Minhas Trilhas</h1>
+        <hr class="linha-neon">
+        <br>
+        <p style="color: var(--text-muted);">Acompanhe seu progresso acadêmico.</p>
+        <br>
+    </div>
+
+    <div class="trilhas-grid">
+        {% for trilha in trilhas %}
+            <article class="trilha-card">
+                <div class="badge">{{ trilha.semestre }}º Semestre</div>
+                <h3 style="margin: 15px 0;">{{ trilha.nomeDaTrilha }}</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; min-height: 60px;">{{ trilha.descricao }}</p>
+                
+                <div class="trilha-actions" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                    <small class="text-muted">{{ trilha.criado_em|date:"d M" }}</small>
+    
+                    <div style="display: flex; gap: 15px; align-items: center;">
+                        <a href="{% url 'editar_trilha' trilha.id %}" style="color: var(--text-muted); text-decoration: none; font-size: 0.85rem;">
+                        Editar
+                        </a>
+                        <a href="{% url 'excluir_trilha' trilha.id %}" class="btn-delete" 
+                        onclick="return confirm('Tem certeza que deseja apagar esta trilha?')">Excluir
+                        </a>
+        
+                        <a href="{% url 'detalhes_trilha' trilha.id %}" class="btn-access">Acessar →</a>
+                    </div>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+    <br>
+    <a href="{% url 'cadastro' %}" class="btn-floating">+ Nova Trilha</a>
+    <br><br>
+    <hr class="linha-neon">
+</main>
+{% endblock %}

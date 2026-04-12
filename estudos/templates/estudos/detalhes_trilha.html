@@ -1,0 +1,62 @@
+{% extends 'estudos/base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="container">
+    <div class="nav-back">
+        <a href="{% url 'index' %}">← Voltar para Dashboard</a>
+    </div>
+    
+    <header class="trilha-header-card">
+        <div class="badge">{{ trilha.semestre }}º Semestre</div>
+        <br>
+        <hr class="linha-neon">
+        <br>
+        <h1>{{ trilha.nomeDaTrilha }}</h1>
+        <p style="color: var(--text-muted);">{{ trilha.descricao }}</p>
+        <br>
+    </header>
+    <hr class="linha-neon">
+    <br>
+    <div class="content-header">
+        <h2 class="accent-title">Conteúdo da Trilha</h2>
+        <br>
+        <a href="{% url 'criar_topico' trilha.id %}" class="btn-small">+ Novo Tópico</a>
+    </div>
+    
+    <br>
+    <div class="trilhas-grid">
+        {% for topico in topicos %}
+            <article class="trilha-card {% if topico.concluido %}topico-concluido{% endif %}">
+                <div class="card-top">
+                    <h3>{{ topico.nomeDoTopico }}</h3>
+                    {% if topico.concluido %}
+                        <span class="check-icon">✓</span>
+                    {% endif %}
+                </div>
+                
+                <p style="color: var(--text-muted);">{{ topico.descricao }}</p>
+                
+                <div class="card-actions">
+                    {% if not topico.concluido %}
+                        <a href="{% url 'marcar_como_concluido' topico.id %}" class="btn-outline-success">
+                           Marcar como Concluído
+                        </a>
+                    {% endif %}
+                    <a href="{% url 'excluir_topico' topico.id %}" class="btn-delete" 
+                        style="font-size: 0.75rem; border: none; opacity: 0.6;">
+                        Apagar Tópico
+                    </a>
+                </div>
+            </article>
+        {% empty %}
+            <div class="empty-state">
+                <br><br><br><br><br><br>
+                <p>Nenhum tópico cadastrado. Comece adicionando um novo assunto!</p>
+            </div>
+        {% endfor %}
+    </div>
+    <br><br>
+    <hr class="linha-neon">
+</main>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'estudos/base.html' %}
+{% load static %}
+
+{% block content %}
+<main class="container">
+    <div class="text-center">
+        <h1 style="font-size: 2.5rem; margin-bottom: 10px;">Novo Tópico</h1>
+        <hr class="linha-neon">
+        <br>
+        <p style="color: var(--text-muted);">Adicione um novo assunto à trilha: <strong>{{ trilha.nomeDaTrilha }}</strong></p>
+    </div>
+    <br>
+    <section class="form-container">
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="nomeDoTopico">Nome do Tópico</label>
+                <input type="text" name="nomeDoTopico" id="nomeDoTopico" placeholder="Ex: Introdução ao Python" required>
+            </div>
+
+            <div class="form-group">
+                <label for="descricao">O que será estudado neste tópico?</label>
+                <textarea name="descricao" id="descricao" rows="5" placeholder="Descreva brevemente o conteúdo..." required></textarea>
+            </div>
+
+            <div style="display: flex; gap: 15px; margin-top: 20px;">
+                <button type="submit" class="btn-primary" style="flex: 2;">Salvar Tópico</button>
+                <a href="{% url 'detalhes_trilha' trilha.id %}" class="btn-outline-success" style="flex: 1; text-align: center; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    Cancelar
+                </a>
+            </div>
+        </form>
+    </section>
+    <br> <br>
+    <hr class="linha-neon">
+</main>
+{% endblock %}
