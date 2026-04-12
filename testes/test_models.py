@@ -1,6 +1,5 @@
 import pytest
 from estudos.models import Trilha, Topico
-from django.utils import timezone
 
 @pytest.mark.django_db
 def test_trilha_creation():

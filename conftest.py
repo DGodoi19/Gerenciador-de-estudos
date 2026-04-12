@@ -9,4 +9,3 @@ def trilha_exemplo(db):
         descricao="Estudo de padrões",
         semestre=3
     )
-    
