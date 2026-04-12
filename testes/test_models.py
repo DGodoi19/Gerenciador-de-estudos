@@ -2,24 +2,29 @@ import pytest
 from estudos.models import Trilha, Topico
 
 @pytest.mark.django_db
-def test_trilha_creation():
+def test_criacao_trilha_sucesso():
+    """1. Cenário de uso correto (Caminho Feliz)"""
     trilha = Trilha.objects.create(
-        nomeDaTrilha="Teste trilha",
-        descricao="Esse é um estudo de teste.",
-        semestre=3
+        nomeDaTrilha="Engenharia de Software",
+        descricao="Estudo de CI/CD e testes"
     )
-    assert trilha.nomeDaTrilha == "Teste trilha"
-    assert trilha.descricao == "Esse é um estudo de teste."
+    assert trilha.nomeDaTrilha == "Engenharia de Software"
+    assert Trilha.objects.count() == 1
 
 @pytest.mark.django_db
-def test_topico_str():
-    trilha = Trilha.objects.create(
-        nomeDaTrilha="Teste trilha",
-        descricao="Esse é um estudo de teste."
-    )
+def test_topico_str_formatacao():
+    """2. Caso de variação importante (Regra de negócio da String)"""
+    trilha = Trilha.objects.create(nomeDaTrilha="Django", descricao="Web")
     topico = Topico.objects.create(
         trilha=trilha,
-        nomeDoTopico="Teste tópico",
-        descricao="Esse é um tópico de teste."
+        nomeDoTopico="Modelos",
+        descricao="Testando models"
     )
-    assert str(topico) == "Teste tópico - Teste trilha"
+    assert str(topico) == "Modelos - Django"
+
+@pytest.mark.django_db
+def test_vinculo_trilha_topico():
+    """3. Caso limite: Verificar se tópico exige uma trilha (Integridade)"""
+    with pytest.raises(Exception):
+
+        Topico.objects.create(nomeDoTopico="Tópico Órfão")
