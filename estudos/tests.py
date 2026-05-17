@@ -14,13 +14,13 @@ def test_index_carrega_com_sucesso_e_exibe_feriados_da_api(mock_get, client):
             "type": "national"
         }
     ]
-    
-   
-    url = reverse('index') 
+
+
+    url = reverse('index')
     resposta = client.get(url)
-    
-    
+
+
     assert resposta.status_code == 200
-    
-    
+
+
     assert b"Natal" in resposta.content

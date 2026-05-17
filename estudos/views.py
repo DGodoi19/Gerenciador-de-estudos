@@ -6,7 +6,7 @@ def index(request):
     trilhas_do_aluno = Trilha.objects.all()
     url = "https://brasilapi.com.br/api/feriados/v1/2026"
     eventos_calendario = []
-    
+
     try:
         resposta = requests.get(url, timeout=3)
         if resposta.status_code == 200:
@@ -15,10 +15,10 @@ def index(request):
                 eventos_calendario.append({
                     'title': f"🎉 {feriado['name']}",
                     'start': feriado['date'],
-                    'color': '#7b2cbf' 
+                    'color': '#7b2cbf'
                 })
     except requests.exceptions.RequestException:
-        pass 
+        pass
 
     contexto = {
         'trilhas': trilhas_do_aluno,

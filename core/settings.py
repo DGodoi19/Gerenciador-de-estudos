@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 if os.environ.get('DATABASE_URL'):
-    
+
     DATABASES = {
         'default': dj_database_url.config(
             conn_max_age=600,
@@ -83,7 +83,7 @@ if os.environ.get('DATABASE_URL'):
         )
     }
 else:
-    
+
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
