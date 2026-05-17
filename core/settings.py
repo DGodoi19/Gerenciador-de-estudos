@@ -153,3 +153,5 @@ CSRF_TRUSTED_ORIGINS = [
     'https://gerenciador-de-estudos-production.up.railway.app',
 ]
 
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+
