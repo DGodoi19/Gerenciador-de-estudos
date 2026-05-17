@@ -1,42 +1,93 @@
 {% extends 'estudos/base.html' %}
 {% load static %}
 {% block content %}
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
+
 <main class="container">
     <div class="text-center">
         <h1 style="font-size: 3rem; margin-bottom: 10px;">Minhas Trilhas</h1>
         <hr class="linha-neon">
         <br>
-        <p style="color: var(--text-muted);">Acompanhe seu progresso acadêmico.</p>
+        <p style="color: var(--text-muted);">Acompanhe seu progresso acadêmico e organize seu calendário de estudos.</p>
         <br>
     </div>
 
-    <div class="trilhas-grid">
-        {% for trilha in trilhas %}
-            <article class="trilha-card">
-                <div class="badge">{{ trilha.semestre }}º Semestre</div>
-                <h3 style="margin: 15px 0;">{{ trilha.nomeDaTrilha }}</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem; min-height: 60px;">{{ trilha.descricao }}</p>
-                
-                <div class="trilha-actions" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
-                    <small class="text-muted">{{ trilha.criado_em|date:"d M" }}</small>
-    
-                    <div style="display: flex; gap: 15px; align-items: center;">
-                        <a href="{% url 'editar_trilha' trilha.id %}" style="color: var(--text-muted); text-decoration: none; font-size: 0.85rem;">
-                        Editar
-                        </a>
-                        <a href="{% url 'excluir_trilha' trilha.id %}" class="btn-delete" 
-                        onclick="return confirm('Tem certeza que deseja apagar esta trilha?')">Excluir
-                        </a>
+    <div class="dashboard-layout" style="display: grid; grid-template-columns: 1.8fr 1.2fr; gap: 30px; margin-top: 20px;">
         
-                        <a href="{% url 'detalhes_trilha' trilha.id %}" class="btn-access">Acessar →</a>
-                    </div>
-                </div>
-            </article>
-        {% endfor %}
+        <section class="calendario-secao" style="background: rgba(30, 15, 50, 0.5); padding: 25px; border-radius: 12px; border: 1px solid #442570; box-shadow: 0 0 15px rgba(123, 44, 191, 0.2); height: fit-content;">
+            <h2 style="font-size: 1.8rem; margin-bottom: 20px; color: #fff;">📅 Calendário do Ano</h2>
+            <div id="calendar" style="color: #fff;"></div>
+        </section>
+
+        <section class="trilhas-secao">
+            <div class="trilhas-grid" style="display: flex; flex-direction: column; gap: 20px;">
+                {% for trilha in trilhas %}
+                    <article class="trilha-card" style="margin: 0; width: 100%;">
+                        <div class="badge">{{ trilha.semestre }}º Semestre</div>
+                        <h3 style="margin: 15px 0;">{{ trilha.nomeDaTrilha }}</h3>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; min-height: 60px;">{{ trilha.descricao }}</p>
+                        
+                        <div class="trilha-actions" style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                            <small class="text-muted">{{ trilha.criado_em|date:"d M" }}</small>
+            
+                            <div style="display: flex; gap: 15px; align-items: center;">
+                                <a href="{% url 'editar_trilha' trilha.id %}" style="color: var(--text-muted); text-decoration: none; font-size: 0.85rem;">
+                                    Editar
+                                </a>
+                                <a href="{% url 'excluir_trilha' trilha.id %}" class="btn-delete" 
+                                   onclick="return confirm('Tem certeza que deseja apagar esta trilha?')">Excluir
+                                </a>
+                
+                                <a href="{% url 'detalhes_trilha' trilha.id %}" class="btn-access">Acessar →</a>
+                            </div>
+                        </div>
+                    </article>
+                {% empty %}
+                    <p style="color: var(--text-muted);">Nenhuma trilha cadastrada ainda.</p>
+                {% endfor %}
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <a href="{% url 'cadastro' %}" class="btn-floating" style="position: static; display: inline-block;">+ Nova Trilha</a>
+            </div>
+        </section>
     </div>
-    <br>
-    <a href="{% url 'cadastro' %}" class="btn-floating">+ Nova Trilha</a>
+
     <br><br>
     <hr class="linha-neon">
 </main>
+
+{{ eventos|json_script:"calendario-eventos-data" }}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    
+    var eventosElement = document.getElementById('calendario-eventos-data');
+    var eventosData = eventosElement ? JSON.parse(eventosElement.textContent) : [];
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      locale: 'pt-br',
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek'
+      },
+      events: eventosData
+    });
+    
+    calendar.render();
+  });
+  
+</script>
+<style>
+  .fc .fc-toolbar-title { font-size: 1.2rem !important; color: #fff; }
+  .fc .fc-button-primary { background-color: #5a189a !important; border-color: #7b2cbf !important; }
+  .fc .fc-button-primary:hover { background-color: #7b2cbf !important; }
+  .fc .fc-button-active { background-color: #9d4edd !important; border-color: #9d4edd !important; }
+  .fc-theme-standard td, .fc-theme-standard th { border: 1px solid rgba(255, 255, 255, 0.1) !important; }
+  .fc .fc-daygrid-day-number { color: #fff; text-decoration: none; padding: 4px; }
+  .fc .fc-col-header-cell-cushion { color: var(--text-muted); text-decoration: none; }
+</style>
 {% endblock %}

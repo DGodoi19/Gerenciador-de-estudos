@@ -1,10 +1,30 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Trilha, Topico
-
+import requests
 
 def index(request):
-    trilhas = Trilha.objects.all()
-    return render(request, 'estudos/index.html', {'trilhas': trilhas})
+    trilhas_do_aluno = Trilha.objects.all()
+    url = "https://brasilapi.com.br/api/feriados/v1/2026"
+    eventos_calendario = []
+
+    try:
+        resposta = requests.get(url, timeout=3)
+        if resposta.status_code == 200:
+            feriados = resposta.json()
+            for feriado in feriados:
+                eventos_calendario.append({
+                    'title': f"🎉 {feriado['name']}",
+                    'start': feriado['date'],
+                    'color': '#7b2cbf'
+                })
+    except requests.exceptions.RequestException:
+        pass
+
+    contexto = {
+        'trilhas': trilhas_do_aluno,
+        'eventos': eventos_calendario
+    }
+    return render(request, 'estudos/index.html', contexto)
 
 def cadastro(request):
     if request.method == 'POST':
@@ -69,3 +89,5 @@ def editar_trilha(request, id):
         trilha.save()
         return redirect('detalhes_trilha', id=id)
     return render(request, 'estudos/editar_trilha.html', {'trilha': trilha})
+
+
