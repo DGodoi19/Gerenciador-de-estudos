@@ -1,27 +1,48 @@
-# Gerenciador de Estudos Acadêmicos
+### A Solução
+O **Gerenciador de Estudos Acadêmicos** é uma aplicação web desenvolvida em Django para organização e gerenciamento de tópicos de estudo e trilhas de aprendizagem. O projeto foca em auxiliar um estudante a gerenciar seus estudos, o que está aprendendo agora, e acompanhar seu progresso de uma maneira interativa, intuitiva, e com um visual atrativo e moderno (Tema Dark Purple).
 
-*Versão:* 1.0.0  **Autor:** Daniel Godoi Alves Watrin
-*Link do repositório:* https://github.com/DGodoi19/Gerenciador-de-estudos.git
-*Status:* Concluído 
 ---
 
-## Descrição:
+## Link do Projeto em Produção (Deploy)
 
-Problema: Muitos alunos, sejam universitários como estudantes do ensino médio se encontram peridos hoje em dia quando o assunto é organizar melhor seus estudos, acompanhar seu progresso, gerenciar os tópicos e trilhas que o aluno está ou não aprendendo, para isso foi criado o Gerenciador de Estudos Acadêmicos. 
+O sistema foi publicado em ambiente de produção e está totalmente operacional na nuvem através do link:  
+**[Gerenciador de Estudos - Railway](http://gerenciador-de-estudos-production.up.railway.app/)**
 
-Aplicação web desenvolvida em Django para organização e gerenciamento de tópicos de estudo e trilhas de aprendizagem. O projeto foca em auxiliar um estudante a gerenciar seus estudos, o que está aprendendo agora, e acompanhar seu progresso de uma maneira interativa, intuitiva, e com um visual atrativo e moderno.
+---
 
 ## Tecnologias Utilizadas
 
-- **Framework:** [Django 4.2]
-- **Linguagem:** [Python 3.12]
-- **Estilização:** CSS3 personalizado (Tema Dark Purple)
-- **Qualidade de Código:** [Ruff] (Linting e Análise Estática)
-- **Testes:** [Pytest] com `pytest-django`
-- **CI/CD:** [GitHub Actions]
+- **Framework:** Django 4.2+
+- **Linguagem:** Python 3.13 (Produção) / Python 3.12 (Local)
+- **Banco de Dados:** PostgreSQL (Produção no Railway) / SQLite3 (Ambiente Local)
+- **Integração Externa:** `requests` para consumo em tempo real da **BrasilAPI** (Exibição de Feriados Nacionais no Calendário)
+- **Servidor de Produção & Estáticos:** Gunicorn & WhiteNoise
+- **Qualidade de Código:** Ruff (Linting e Análise Estática)
+- **Testes:** Pytest com `pytest-django`
+- **CI/CD:** GitHub Actions
 
 ---
 
+## Governança e Fluxo de Desenvolvimento (Git)
+
+O projeto seguiu rigorosamente as boas práticas de Git Flow e Governança exigidas para o desenvolvimento de software:
+1. **Planejamento:** Criação de Issues para mapear os requisitos da entrega.
+2. **Ramificação:** Desenvolvimento isolado de novas features na branch `entrega-intermediaria`.
+3. **Integração Contínua (CI):** Validação automatizada do código via GitHub Actions (Ruff e Pytest) a cada push, garantindo estabilidade antes da integração.
+4. **Revisão e Integração:** Criação de Pull Request para revisão do código e realização do Merge para a branch principal (`main`).
+
+---
+
+## Funcionalidades Concluídas
+
+- [x] Cadastro de Trilhas de Estudo por semestre.
+- [x] Adição de tópicos específicos para cada trilha.
+- [x] Marcar tópicos como concluídos.
+- [x] Edição e Exclusão (CRUD completo de Trilhas e Tópicos).
+- [x] **Integração com BrasilAPI:** Exibição dinâmica de feriados nacionais integrados ao FullCalendar na página inicial.
+- [x] Interface Responsiva e Customizada (Tema Dark Purple).
+
+---
 ##  1 - Como Executar o Projeto
 
 
