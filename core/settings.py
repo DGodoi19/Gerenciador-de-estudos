@@ -147,7 +147,9 @@ STORAGES = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+WHITENOISE_MANIFEST_STRICT = False
 WHITENOISE_USE_FINDERS = True
+
 
 CSRF_TRUSTED_ORIGINS = [
     'https://gerenciador-de-estudos-production.up.railway.app',
