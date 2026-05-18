@@ -133,7 +133,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "estudos" / "static",
 ]
 
-# Configuração do WhiteNoise para armazenar e compactar os arquivos em produção
+# Configuração padrão (usada em Produção no Railway)
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
@@ -142,13 +142,20 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+
+WHITENOISE_MANIFEST_STRICT = False
+WHITENOISE_USE_FINDERS = True
+
+# Sobrescreve em ambiente de testes para evitar erros com arquivos ausentes
+import sys
+if 'test' in sys.argv or 'pytest' in sys.modules:
+    STORAGES["staticfiles"] = {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    }
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-WHITENOISE_MANIFEST_STRICT = False
-WHITENOISE_USE_FINDERS = True
 
 
 CSRF_TRUSTED_ORIGINS = [
